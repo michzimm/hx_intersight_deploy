@@ -41,6 +41,6 @@ The included `input.xlsx` file is the excel spreadsheet used to pass data to the
 
 ## Run Script
 
-1. Run 
+Run `hx_intersight_deploy.py -a auth -f ./input.xlsx` 
 
 ## Example
