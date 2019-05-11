@@ -35,6 +35,10 @@ Example "auth" file:
 }
 ```
 
+## Input File
+
+The included `input.xlsx` file is the excel spreadsheet used to pass data to the Intersight API. Each row in the spreadsheet represents a new HyperFlex cluster profile which will be created. The `blue` and `green` color-coding represent data as well as overall policies which are either optional (`blue`) or mandatory (`green`). The data marked `orange` represents policy names, in other words what would you like to call the particular policy that will get created. If multiple HyperFlex cluster profiles will leverage the same policy, you only need to provide the policy name AND policy data for the first instance of the policy. For each subsequent cluster profile that will leverage the same policy, you simply need to enter the same policy name and leave the policy data blank.
+
 ## Run Script
 
 1. Run 
