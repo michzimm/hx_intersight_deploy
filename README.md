@@ -21,8 +21,8 @@ Recommended to use a virtual environment, but not mandatory.
 4. In the upper-right, click "Generate API Key". (You can also use an existing API key if you already have one created)
 5. Enter a "Descripton" (name) for the API key and click "Generate".
 6. The resulting popup shows the unique API Key ID and Secret Key that were created.
-7. Copy the "API Key ID" and insert into the "auth" file (on your local machine) for the "api_key_id" value.
-8. Copy the "Secret Key" into a file on your local machine.
+7. Copy the "API Key ID" text in it's entirety and insert into the "auth" file (on your local machine) for the "api_key_id" value.
+8. Copy the "Secret Key" text in it's entirety into a file on your local machine.
 9. Add the path to the "Secret Key" file in the "auth" file (on your local machine) for the "api_private_key_file" value.
 
 Example "auth" file:
