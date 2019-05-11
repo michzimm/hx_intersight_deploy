@@ -1,4 +1,4 @@
-# HyperFlex Deployment at Scale through Intersight aka "hx_intersight_deploy"
+# HyperFlex Deployment at Scale via Intersight API
 
 ## Purpose
 
