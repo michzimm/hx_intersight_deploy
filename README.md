@@ -27,11 +27,13 @@ Recommended to use a virtual environment, but not mandatory.
 
 Example "auth" file:
 
-`{
-    "api_base_uri": "https://intersight.com/api/v1",\
-    "api_key_id": "<api_key_id>",\
-    "api_private_key_file": "<path_to_private_key_file"\
-}`
+```
+{
+    "api_base_uri": "https://intersight.com/api/v1",
+    "api_key_id": "<api_key_id>",
+    "api_private_key_file": "<path_to_private_key_file"
+}
+```
 
 ## Run Script
 
