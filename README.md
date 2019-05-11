@@ -41,6 +41,9 @@ The included `input.xlsx` file is the excel spreadsheet used to pass data to the
 
 ## Run Script
 
-Run `hx_intersight_deploy.py -a auth -f ./input.xlsx` 
-
-## Example
+1. Run `hx_intersight_deploy.py -a auth -f ./input.xlsx`.
+2. Select the operation to be performed:
+   1. Claim HyperFlex Nodes in Intersight
+   2. Create HyperFlex Cluster Profiles in Intersight
+   3. Assign claimed HyperFlex nodes to HyperFlex Cluster Profiles in Intersight
+3. Depending on the chosen option, you will be prompted for any required passwords
