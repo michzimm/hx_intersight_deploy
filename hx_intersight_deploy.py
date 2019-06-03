@@ -32,11 +32,12 @@ from intersight.apis import hyperflex_cluster_profile_api
 from intersight.apis import compute_rack_unit_api
 from intersight.apis import hyperflex_node_profile_api
 from intersight.apis import hyperflex_software_version_policy_api
+from intersight.models import hyperflex_mac_addr_prefix_range
 import device_connector
 from imcsdk.imchandle import ImcHandle
 
 class InputRecord(object):
-    def __init__(self, hx_profile_name=None, cluster_type=None, hxdp_version=None, description=None, data_vlan_id=None, cluster_mgmt_ip=None, hx_nodes_cimc_ips=None, hx_nodes_cimc_user=None, local_credential_policy_name=None, hypervisor_admin_user=None, sys_config_policy_name=None, dns_suffix=None, timezone=None, dns_servers=None, ntp_servers=None, vcenter_policy_name=None, vcenter=None, vcenter_user=None, vcenter_dc=None, vcenter_sso=None, cluster_storage_policy_name=None, vdi_optimization=None, clean_partitions=None, auto_support_policy_name=None, auto_support=None, auto_support_email=None, node_config_policy_name=None, hostname_prefix=None, mgmt_start_ip=None, mgmt_end_ip=None, mgmt_subnet_mask=None, mgmt_gw=None, cont_vm_start_ip=None, cont_vm_end_ip=None, cont_vm_subnet_mask=None, cont_vm_gw=None, cluster_network_policy_name=None, mgmt_vlan_id=None, uplink_speed=None, jumbo_frames=None, proxy_setting_policy_name=None, proxy_hostname=None, proxy_port=None, proxy_username=None, proxy_password=None):
+    def __init__(self, hx_profile_name=None, cluster_type=None, hxdp_version=None, description=None, data_vlan_id=None, cluster_mgmt_ip=None, mac_address_prefix=None, hx_nodes_cimc_ips=None, hx_nodes_cimc_user=None, local_credential_policy_name=None, hypervisor_admin_user=None, sys_config_policy_name=None, dns_suffix=None, timezone=None, dns_servers=None, ntp_servers=None, vcenter_policy_name=None, vcenter=None, vcenter_user=None, vcenter_dc=None, vcenter_sso=None, cluster_storage_policy_name=None, vdi_optimization=None, clean_partitions=None, auto_support_policy_name=None, auto_support=None, auto_support_email=None, node_config_policy_name=None, hostname_prefix=None, mgmt_start_ip=None, mgmt_end_ip=None, mgmt_subnet_mask=None, mgmt_gw=None, cont_vm_start_ip=None, cont_vm_end_ip=None, cont_vm_subnet_mask=None, cont_vm_gw=None, cluster_network_policy_name=None, mgmt_vlan_id=None, uplink_speed=None, jumbo_frames=None, proxy_setting_policy_name=None, proxy_hostname=None, proxy_port=None, proxy_username=None, proxy_password=None):
 
         if hx_profile_name is not None:
             self.hx_profile_name = hx_profile_name
@@ -50,6 +51,8 @@ class InputRecord(object):
             self.data_vlan_id = data_vlan_id
         if cluster_mgmt_ip is not None:
             self.cluster_mgmt_ip = cluster_mgmt_ip
+        if mac_address_prefix is not None:
+            self.mac_address_prefix = mac_address_prefix
         if hx_nodes_cimc_ips is not None:
             self.hx_nodes_cimc_ips = hx_nodes_cimc_ips
         if hx_nodes_cimc_user is not None:
@@ -330,7 +333,7 @@ def create_node_config_policy(api_instance, policy_name, hostname_prefix, mgmt_i
         print("Error: %s\n" % e)
 
 
-def create_cluster_network_policy(api_instance, policy_name, mgmt_vlan, uplink_speed, jumbo_frames):
+def create_cluster_network_policy(api_instance, policy_name, mgmt_vlan, uplink_speed, jumbo_frames, mac_address_range):
 
     # Get API handle
     cluster_network_policy_handle = hyperflex_cluster_network_policy_api.HyperflexClusterNetworkPolicyApi(api_instance)
@@ -348,7 +351,8 @@ def create_cluster_network_policy(api_instance, policy_name, mgmt_vlan, uplink_s
         #'Description':description,
         'MgmtVlan':mgmt_vlan,
         'UplinkSpeed':uplink_speed,
-        'JumboFrame':jumbo_frames
+        'JumboFrame':jumbo_frames,
+        'MacPrefixRange':mac_address_range
     }
 
     # Execute API
@@ -394,6 +398,9 @@ def create_hx_vlan(vlan_name, vlan_id):
     vlan = hyperflex_named_vlan.HyperflexNamedVlan(vlan_name, int(vlan_id))
     return vlan
 
+def create_hx_mac_addr_prefix_range(end_addr, start_addr):
+    mac_address_range = hyperflex_mac_addr_prefix_range.HyperflexMacAddrPrefixRange(end_addr, start_addr)
+    return mac_address_range
 
 def hyperflex_cluster_profile_exists(api_instance, profile_name):
 
@@ -807,7 +814,7 @@ def get_compute_rack_unit_moid_by_serial(api_instance, serial_num):
         print("Error: %s\n" % e)
 
 
-def create_hx_cluster_profile(api_instance, profile_name, data_vlan, cluster_mgmt_ip, hxdp_version, record_policy_map):
+def create_hx_cluster_profile(api_instance, profile_name, data_vlan, cluster_mgmt_ip, hxdp_version, mac_address_prefix, record_policy_map):
 
     # Get API handle
     hx_cluster_profile_handle = hyperflex_cluster_profile_api.HyperflexClusterProfileApi(api_instance)
@@ -842,7 +849,7 @@ def create_hx_cluster_profile(api_instance, profile_name, data_vlan, cluster_mgm
         'ProxySetting':proxy_setting_policy_moid,       #Cluster Configuration-->Proxy Setting
         'StorageDataVlan':data_vlan,                    #Cluster Configuration-->HyperFlex Storage Network
         'MgmtIpAddress':cluster_mgmt_ip,                #Nodes Configuration-->Cluster Management IP Address
-        #'MacAddressPrefix':'',                         #Nodes Configuration-->MAC Prefix Address
+        'MacAddressPrefix':mac_address_prefix,          #Nodes Configuration-->MAC Prefix Address
     }
 
     # Execute API
@@ -947,7 +954,7 @@ while True:
     3. Assign claimed HyperFlex nodes to HyperFlex Cluster Profiles in Intersight\n \
     4. Perform all of the above\n")
 
-    menu_answer = raw_input("Enter the number for your selection: ")
+    menu_answer = raw_input("     Enter the number for your selection: ")
     if menu_answer in ('1','2','3','4'):
         break
     else:
@@ -1057,44 +1064,45 @@ for row in ws.iter_rows(min_row=3, values_only=True):
     new_record.description = row[3]
     new_record.data_vlan_id = row[4]
     new_record.cluster_mgmt_ip = row[5]
-    new_record.hx_nodes_cimc_ips = row[6]
-    new_record.hx_nodes_cimc_user = row[7]
-    new_record.local_credential_policy_name = row[8]
-    new_record.hypervisor_admin_user = row[9]
-    new_record.sys_config_policy_name = row[10]
-    new_record.timezone = row[11]
-    new_record.dns_suffix = row[12]
-    new_record.dns_servers = row[13]
-    new_record.ntp_servers = row[14]
-    new_record.vcenter_policy_name = row[15]
-    new_record.vcenter = row[16]
-    new_record.vcenter_user = row[17]
-    new_record.vcenter_dc = row[18]
-    new_record.vcenter_sso = row[19]
-    new_record.cluster_storage_policy_name = row[20]
-    new_record.vdi_optimization = row[21]
-    new_record.clean_partitions = row[22]
-    new_record.auto_support_policy_name = row[23]
-    new_record.auto_support = row[24]
-    new_record.auto_support_email = row[25]
-    new_record.node_config_policy_name = row[26]
-    new_record.hostname_prefix = row[27]
-    new_record.mgmt_start_ip = row[28]
-    new_record.mgmt_end_ip = row[29]
-    new_record.mgmt_subnet_mask = row[30]
-    new_record.mgmt_gw = row[31]
-    new_record.cont_vm_start_ip = row[32]
-    new_record.cont_vm_end_ip = row[33]
-    new_record.cont_vm_subnet_mask = row[34]
-    new_record.cont_vm_gw = row[35]
-    new_record.cluster_network_policy_name = row[36]
-    new_record.mgmt_vlan_id = row[37]
-    new_record.uplink_speed = row[38]
-    new_record.jumbo_frames = row[39]
-    new_record.proxy_setting_policy_name = row[40]
-    new_record.proxy_hostname = row[41]
-    new_record.proxy_port = row[42]
-    new_record.proxy_username = row[43]
+    new_record.mac_address_prefix = row[6]
+    new_record.hx_nodes_cimc_ips = row[7]
+    new_record.hx_nodes_cimc_user = row[8]
+    new_record.local_credential_policy_name = row[9]
+    new_record.hypervisor_admin_user = row[10]
+    new_record.sys_config_policy_name = row[11]
+    new_record.timezone = row[12]
+    new_record.dns_suffix = row[13]
+    new_record.dns_servers = row[14]
+    new_record.ntp_servers = row[15]
+    new_record.vcenter_policy_name = row[16]
+    new_record.vcenter = row[17]
+    new_record.vcenter_user = row[18]
+    new_record.vcenter_dc = row[19]
+    new_record.vcenter_sso = row[20]
+    new_record.cluster_storage_policy_name = row[21]
+    new_record.vdi_optimization = row[22]
+    new_record.clean_partitions = row[23]
+    new_record.auto_support_policy_name = row[24]
+    new_record.auto_support = row[25]
+    new_record.auto_support_email = row[26]
+    new_record.node_config_policy_name = row[27]
+    new_record.hostname_prefix = row[28]
+    new_record.mgmt_start_ip = row[29]
+    new_record.mgmt_end_ip = row[30]
+    new_record.mgmt_subnet_mask = row[31]
+    new_record.mgmt_gw = row[32]
+    new_record.cont_vm_start_ip = row[33]
+    new_record.cont_vm_end_ip = row[34]
+    new_record.cont_vm_subnet_mask = row[35]
+    new_record.cont_vm_gw = row[36]
+    new_record.cluster_network_policy_name = row[37]
+    new_record.mgmt_vlan_id = row[38]
+    new_record.uplink_speed = row[39]
+    new_record.jumbo_frames = row[40]
+    new_record.proxy_setting_policy_name = row[41]
+    new_record.proxy_hostname = row[42]
+    new_record.proxy_port = row[43]
+    new_record.proxy_username = row[44]
 
 
     # Create hyperflex cluster profiles from input CSV if option 2 or option 3 is selected
@@ -1187,12 +1195,13 @@ for row in ws.iter_rows(min_row=3, values_only=True):
             # Add node config policy moid to dictionary
             record_policy_map['node_config_policy'] = get_node_config_policy_moid(api_instance, new_record.node_config_policy_name)
 
-
+            # NETWORK CONFIG POLICY
             # Check if cluster network policy exists
             if not cluster_network_policy_exists(api_instance, new_record.cluster_network_policy_name):
                 # Create cluster network policy if does not exist
                 mgmt_vlan = create_hx_vlan('mgmt', new_record.mgmt_vlan_id)
-                create_cluster_network_policy(api_instance, new_record.cluster_network_policy_name, mgmt_vlan, new_record.uplink_speed ,new_record.jumbo_frames)
+                mac_address_range = create_hx_mac_addr_prefix_range(new_record.mac_address_prefix, new_record.mac_address_prefix)
+                create_cluster_network_policy(api_instance, new_record.cluster_network_policy_name, mgmt_vlan, new_record.uplink_speed ,new_record.jumbo_frames, mac_address_range)
 
             record_policy_map['cluster_network_policy'] = get_cluster_network_policy_moid(api_instance, new_record.cluster_network_policy_name)
 
@@ -1209,7 +1218,7 @@ for row in ws.iter_rows(min_row=3, values_only=True):
 
             # Create HyperFlex cluster profile
             data_vlan = create_hx_vlan('data', new_record.data_vlan_id)
-            create_hx_cluster_profile(api_instance, new_record.hx_profile_name, data_vlan, new_record.cluster_mgmt_ip, new_record.hxdp_version, record_policy_map)
+            create_hx_cluster_profile(api_instance, new_record.hx_profile_name, data_vlan, new_record.cluster_mgmt_ip, new_record.hxdp_version, new_record.mac_address_prefix, record_policy_map)
             profile_status = 'created'
 
 
@@ -1248,7 +1257,7 @@ for row in ws.iter_rows(min_row=3, values_only=True):
 
                     # Setup timeout for 'try' statement below
                     signal.signal(signal.SIGALRM, timeout_handler)
-                    signal.alarm(10)
+                    signal.alarm(20)
 
                     try:
                         # Get device_connector object for hyperflex node device
@@ -1282,13 +1291,19 @@ for row in ws.iter_rows(min_row=3, values_only=True):
 
                         # Wait for a connection to establish before checking claim state
                         for _ in range(10):
+                            ro_json = dc_obj.get_status()
                             if ro_json['ConnectionState'] != 'Connected':
+                                if ro_json['ConnectionState'] in ('DNS Misconfigured', 'Intersight DNS Resolve Error'):
+                                    logging.error('CLAIMING Device: '+hx_node+' --> Check CIMC DNS settings, device connector reporting DNS misconfiguration and cannot connect to Intersight.')
+                                    break
                                 sleep(1)
                                 ro_json = dc_obj.get_status()
+                                #print ro_json
                             else:
                                 break
 
                         if ro_json['ConnectionState'] != 'Connected':
+                            claim_status[hx_node] = 'not claimed'
                             continue
 
                         if ro_json['AccountOwnershipState'] != 'Claimed':
@@ -1298,6 +1313,8 @@ for row in ws.iter_rows(min_row=3, values_only=True):
                             claim_status[hx_node] = 'claimed'
                         elif ro_json['AccountOwnershipState'] == 'Claimed':
                             claim_status[hx_node] = 'already claimed'
+                        else:
+                            claim_status[hx_node] = 'not claimed'
                         dc_obj.logout()
 
                     finally:
@@ -1313,6 +1330,8 @@ for row in ws.iter_rows(min_row=3, values_only=True):
 
     # Assign nodes (devices) to HyperFlex cluster profile if option 3 or 4 selected
     if menu_answer in ('3','4'):
+        if menu_answer == '4':
+            sleep(30)
 
         # Setup claim_status dictionary to record claim status for each hyperflex node specfified in input CSV row
         assign_status = {}
