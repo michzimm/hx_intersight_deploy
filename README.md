@@ -9,10 +9,14 @@ Automatically generate multiple HyperFlex cluster profiles in Intersight from da
 Recommended to use a virtual environment, but not mandatory.
 
 1. Install python2.7
-2. Install pip
-3. Follow the install instructions here: https://github.com/CiscoUcs/intersight-python/blob/master/README.md to install the Intersight Python SDK.
-4. Pull the "hx_intersight_deploy" repository to your local machine (i.e. use green "Clone or Download" button in upper right corner of github repo).
-4. Using the provided "requirements.txt" file, run `pip install -r requirements.txt`.
+2. Navigate to https://intersight.com/apidocs
+3. At the top (in the middle) of the screen, click on "Downloads".
+4. Under "Resources", download the "Intersight Python SDK" (file downloaded should be similar to "IntersightPythonSDK.tar.gz").
+5. Run "tar -xf ./IntersightPythonSDK.tar.gz".
+6. Run "sudo python ./IntersightPythonSDK/setup.py install"
+7. Pull the "hx_intersight_deploy" repository to your local machine (i.e. use green "Clone or Download" button in upper right corner of github repo).
+8. Install pip
+9. Using the provided "requirements.txt" file, run `pip install -r requirements.txt`.
 
 ## Setup
 
