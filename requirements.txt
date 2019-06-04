@@ -6,7 +6,6 @@ enum34==1.1.6
 et-xmlfile==1.0.1
 idna==2.8
 imcsdk==0.9.6
-intersight==1.0.0
 jdcal==1.4
 openpyxl==2.6.0
 prettytable==0.7.2
