@@ -10,7 +10,8 @@ Recommended to use a virtual environment, but not mandatory.
 
 1. Install python2.7
 2. Install pip
-3. Pull the "hx_intersight_deploy" repository to your local machine (i.e. use green "Clone or Download" button in upper right corner of github repo).
+3. Follow the install instructions here: https://github.com/CiscoUcs/intersight-python/blob/master/README.md to install the Intersight Python SDK.
+4. Pull the "hx_intersight_deploy" repository to your local machine (i.e. use green "Clone or Download" button in upper right corner of github repo).
 4. Using the provided "requirements.txt" file, run `pip install -r requirements.txt`.
 
 ## Setup
