@@ -28,8 +28,8 @@ Automatically generate multiple HyperFlex cluster profiles in Intersight from da
 
 1. In the top right of the `michzimm/hx_intersight_deploy` repository on Github there is a green "Clone or Download" button. Click the "Clone or Download" button.
 2. The resulting dropdown/popup box contains the URL for the `michzimm/hx_intersight_deploy` repository. Manually copy the URL text or simply click the clipboard icon to the right of the URL text to copy.
-2. Navigate to a directory of your choice on your local machine where you would like to store the necessary files to run the hx_intersight_deploy tool.
-3. Use the `git clone <copied repository_URL>` command to pull the input files from the repository to your local machine.
+3. Navigate to a directory of your choice on your local machine where you would like to store the necessary files to run the hx_intersight_deploy tool.
+4. Use the `git clone <copied repository_URL>` command to pull the input files from the repository to your local machine.
 
 #### Step 3: Setup Intersight API Authentication File
 
@@ -93,17 +93,24 @@ docker run -it -v <inputs_dir_full_path>:/hx_intersight_deploy/inputs michzimm/h
 
 1. Install docker on your system using the standard docker installation procedure for your particular operating system.
 
-   Documentation for installing docker can be found here:
+**Note:** Make sure you select the option to enable linux container support when installing docker on Windows.
 
+   Documentation for installing docker can be found here:
     * Windows: https://docs.docker.com/docker-for-windows/install/
+
+2.
+
 
 #### Step 2: Pull Input Files to Local Machine
 
-1. Use the green "Clone or Download" button in the `michzimm/hx_intersight_deploy` repository on Github to copy the repository's URL.
-2. Navigate to a directory of your choice on your local machine where you would like to store the necessary input files.
-3. Use the `git clone <repository_URL>` command to pull the input files from the repository.
+1. In the top right of the `michzimm/hx_intersight_deploy` repository on Github there is a green "Clone or Download" button. Click the "Clone or Download" button.
+2. The resulting dropdown/popup box contains the URL for the `michzimm/hx_intersight_deploy` repository. Manually copy the URL text or simply click the clipboard icon to the right of the URL text to copy.
+3. Navigate to a directory of your choice on your local machine where you would like to store the necessary files to run the hx_intersight_deploy tool.
+4. Use the `git clone <copied repository_URL>` command to pull the input files from the repository to your local machine.
 
 #### Step 3: Setup Intersight API Authentication File
+
+**Note:** Intersight Essentials license is required to use the Intersight API.
 
 1. Log into https://intersight.com.
 2. in the upper right-hand corner, click the "Gear" icon and then on "Settings".
@@ -112,7 +119,7 @@ docker run -it -v <inputs_dir_full_path>:/hx_intersight_deploy/inputs michzimm/h
 5. Enter a "Description" (name) for the API key and click "Generate".
 6. The resulting popup shows the unique API Key ID and Secret Key that were created. Keep this popup open for the subsequent steps.
 7. In the `inputs` directory that was pulled from the Github repository on your local machine, locate and open the `auth` file with your favorite text editor.
-8. Copy the "API Key ID" text in it's entirety from Intersight and insert into the `auth` file for the `api_key_id` value.
+8. Copy the `API Key ID` text in it's entirety from Intersight and insert into the `auth` file for the `api_key_id` value.
 9. Save and close the `auth` file.
 
 Sample `inputs/auth` file:
@@ -120,33 +127,13 @@ Sample `inputs/auth` file:
 ```
 {
     "api_base_uri": "https://intersight.com/api/v1",
-    "api_key_id": "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
-    "api_private_key_file": "./inputs/private_key"
+    "api_key_id": "XXXXXXX COPY YOUR API KEY ID HERE XXXXXXXXXXX",
+    "api_private_key_file": "./inputs/SecretKey.txt"
 }
 ```
 
-10. In the `inputs` directory that was pulled from the Github repository on your local machine, locate and open the `private_key` file with your favorite text editor.
-11. Copy the "Secret Key" text in it's entirety from Intersight into the empty `private_key` file.
-12. Save and close the `private_key` file.
-
-Sample `inputs/private_key` file
-
-```
------BEGIN RSA PRIVATE KEY-----
-XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
------END RSA PRIVATE KEY-----
-```
-
+10. In Intersight, use the `Save Secret Key to text file` button (to the right of the Secret Key text) to save the secret key file in the `inputs` directory that was pulled from the Github repository on your local machine.
+11. You can now close the `Generate  API Key` pop up window in Intersight.
 
 #### Step 4: Fill-In HyperFlex Cluster Data into Spreadsheet
 
@@ -162,7 +149,7 @@ The included `input.xlsx` file in the "inputs" directory is the excel spreadshee
 docker run -it -v <inputs_dir_full_path>:/hx_intersight_deploy/inputs michzimm/hx_intersight_deploy:1.0 /bin/bash
 ```
    * NOTE: <inputs_dir_full_path> = full path on your local machine to the `inputs` directory
-   * NOTE: Requires access to internet to pull container image from docker hub.
+   * NOTE: Your local machine must have access to the internet to pull container image from the public docker hub registry.
 
 
 #### Step 2: Run Script
