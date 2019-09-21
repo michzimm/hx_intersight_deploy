@@ -8,8 +8,8 @@ Automatically generate multiple HyperFlex cluster profiles in Intersight from da
 
 ## Supported Operating Systems
 
-1. [MAC OS X and Linux](#MAC-OS-X-and-Linux)
-2. [Microsoft Windows](#Microsoft-Windows)
+1. [Setup and Run on MAC OS X and Linux](#MAC-OS-X-and-Linux)
+2. [Setup and Run on Microsoft Windows](#Microsoft-Windows)
 
 ## MAC OS X and Linux
 
@@ -33,6 +33,8 @@ Automatically generate multiple HyperFlex cluster profiles in Intersight from da
 
 #### Step 3: Setup Intersight API Authentication File
 
+**Note:** Intersight Essentials license is required to use the Intersight API.
+
 1. Log into https://intersight.com.
 2. in the upper right-hand corner, click the "Gear" icon and then on "Settings".
 3. Under the "API" section, click on "API Keys".
@@ -40,7 +42,7 @@ Automatically generate multiple HyperFlex cluster profiles in Intersight from da
 5. Enter a "Description" (name) for the API key and click "Generate".
 6. The resulting popup shows the unique API Key ID and Secret Key that were created. Keep this popup open for the subsequent steps.
 7. In the `inputs` directory that was pulled from the Github repository on your local machine, locate and open the `auth` file with your favorite text editor.
-8. Copy the "API Key ID" text in it's entirety from Intersight and insert into the `auth` file for the `api_key_id` value.
+8. Copy the `API Key ID` text in it's entirety from Intersight and insert into the `auth` file for the `api_key_id` value.
 9. Save and close the `auth` file.
 
 Sample `inputs/auth` file:
@@ -48,33 +50,13 @@ Sample `inputs/auth` file:
 ```
 {
     "api_base_uri": "https://intersight.com/api/v1",
-    "api_key_id": "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
-    "api_private_key_file": "./inputs/private_key"
+    "api_key_id": "XXXXXXX COPY YOUR API KEY ID HERE XXXXXXXXXXX",
+    "api_private_key_file": "./inputs/SecretKey.txt"
 }
 ```
 
-10. In the `inputs` directory that was pulled from the Github repository on your local machine, locate and open the `private_key` file with your favorite text editor.
-11. Copy the "Secret Key" text in it's entirety from Intersight into the empty `private_key` file.
-12. Save and close the `private_key` file.
-
-Sample `inputs/private_key` file
-
-```
------BEGIN RSA PRIVATE KEY-----
-XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
------END RSA PRIVATE KEY-----
-```
-
+10. In Intersight, use the `Save Secret Key to text file` button (to the right of the Secret Key text) to save the secret key file in the `inputs` directory that was pulled from the Github repository on your local machine.
+11. You can now close the `Generate  API Key` pop up window in Intersight.
 
 #### Step 4: Fill-In HyperFlex Cluster Data into Spreadsheet
 
