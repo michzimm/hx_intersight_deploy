@@ -33,7 +33,7 @@ from intersight.apis import compute_rack_unit_api
 from intersight.apis import hyperflex_node_profile_api
 from intersight.apis import hyperflex_software_version_policy_api
 from intersight.models import hyperflex_mac_addr_prefix_range
-import device_connector
+import source.device_connector
 from imcsdk.imchandle import ImcHandle
 
 class InputRecord(object):
