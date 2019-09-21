@@ -6,6 +6,11 @@
 
 Automatically generate multiple HyperFlex cluster profiles in Intersight from data provided in an excel spreadsheet.
 
+## Supported Operating Systems
+
+1. [MAC OS X and Linux](#MAC-OS-X-and-Linux)
+2. [Microsoft Windows](#Microsoft-Windows)
+
 ## MAC OS X and Linux Systems
 
 ### Setup
@@ -96,3 +101,6 @@ docker run -it -v <inputs_dir_full_path>:/hx_intersight_deploy/inputs michzimm/h
    3. Assign claimed HyperFlex nodes to HyperFlex Cluster Profiles in Intersight
 3. Depending on the chosen option, you will be prompted for any required passwords and additional information.
 4. Once the script completes, type `exit` to exit the Docker container. The Docker container will automatically stop upon exiting.
+
+
+## Microsoft Windows
