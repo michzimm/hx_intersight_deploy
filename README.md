@@ -27,7 +27,7 @@ Automatically generate multiple HyperFlex cluster profiles in Intersight from da
 #### Step 2: Pull Input Files to Local Machine
 
 1. In the top right of the `michzimm/hx_intersight_deploy` repository on Github there is a green "Clone or Download" button. Click the "Clone or Download" button.
-2. The resulting dropdown/popup box contains the URL for the `michzimm/hx_intersight_deploy` repository. Manual copy the URL text or simply click the clipboard icon to the right of the URL text to copy.
+2. The resulting dropdown/popup box contains the URL for the `michzimm/hx_intersight_deploy` repository. Manually copy the URL text or simply click the clipboard icon to the right of the URL text to copy.
 2. Navigate to a directory of your choice on your local machine where you would like to store the necessary files to run the hx_intersight_deploy tool.
 3. Use the `git clone <copied repository_URL>` command to pull the input files from the repository to your local machine.
 
