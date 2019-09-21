@@ -931,7 +931,7 @@ format = '%(asctime)s - %(levelname)s - %(message)s'
 parser = argparse.ArgumentParser()
 help_str = 'JSON file with Intersight API parameters.  Default: intersight_api_params.json'
 parser.add_argument('-a', '--api_params', default='./inputs/auth', help=help_str)
-parser.add_argument('-f', '--input_file', default='./inputs/inputs.xlsx')
+parser.add_argument('-f', '--input_file', default='./inputs/input.xlsx')
 args = parser.parse_args()
 
 
