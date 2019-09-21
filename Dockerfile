@@ -10,6 +10,7 @@ RUN apk add --update \
 RUN set -ex && apk --no-cache add sudo
 
 RUN mkdir /hx_intersight_deploy
+RUN mkdir /hx_intersight_deploy/logs
 
 COPY ./source/hx_intersight_deploy.py /hx_intersight_deploy
 COPY ./source /hx_intersight_deploy/source
