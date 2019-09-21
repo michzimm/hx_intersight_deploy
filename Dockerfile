@@ -20,6 +20,8 @@ RUN tar -xf /hx_intersight_deploy/source/IntersightPythonSDK.tar.gz -C /hx_inter
 
 RUN pip install -r /hx_intersight_deploy/source/requirements.txt
 
+WORKDIR /hx_intersight_deploy/source/IntersightPythonSDK_v1.1
+
 RUN python /hx_intersight_deploy/source/IntersightPythonSDK_v1.1/setup.py install
 
 WORKDIR /hx_intersight_deploy
