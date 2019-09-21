@@ -26,9 +26,10 @@ Automatically generate multiple HyperFlex cluster profiles in Intersight from da
 
 #### Step 2: Pull Input Files to Local Machine
 
-1. Use the green "Clone or Download" button in the `michzimm/hx_intersight_deploy` repository on Github to copy the repository's URL.
-2. Navigate to a directory of your choice on your local machine where you would like to store the necessary input files.
-3. Use the `git clone <repository_URL>` command to pull the input files from the repository.
+1. In the top right of the `michzimm/hx_intersight_deploy` repository on Github there is a green "Clone or Download" button. Click the "Clone or Download" button.
+2. The resulting dropdown/popup box contains the URL for the `michzimm/hx_intersight_deploy` repository. Manual copy the URL text or simply click the clipboard icon to the right of the URL text to copy.
+2. Navigate to a directory of your choice on your local machine where you would like to store the necessary files to run the hx_intersight_deploy tool.
+3. Use the `git clone <copied repository_URL>` command to pull the input files from the repository to your local machine.
 
 #### Step 3: Setup Intersight API Authentication File
 
@@ -89,7 +90,7 @@ The included `input.xlsx` file in the "inputs" directory is the excel spreadshee
 docker run -it -v <inputs_dir_full_path>:/hx_intersight_deploy/inputs michzimm/hx_intersight_deploy:1.0 /bin/bash
 ```
    * NOTE: <inputs_dir_full_path> = full path on your local machine to the `inputs` directory
-   * NOTE: Requires access to internet to pull container image from docker hub.
+   * NOTE: Your local machine must have access to the internet to pull container image from the public docker hub registry.
 
 
 #### Step 2: Run Script
