@@ -56,15 +56,13 @@ Sample `inputs/auth` file:
 ```
 
 10. In Intersight, use the `Save Secret Key to text file` button (to the right of the Secret Key text) to save the secret key file in the `inputs` directory that was pulled from the Github repository on your local machine.
-11. You can now close the `Generate  API Key` pop up window in Intersight.
+11. You can now close the `Generate API Key` pop up window in Intersight.
 
 #### Step 4: Fill-In HyperFlex Cluster Data into Spreadsheet
 
 The included `input.xlsx` file in the "inputs" directory is the excel spreadsheet used to pass data to the Intersight API. Each row in the spreadsheet represents a new HyperFlex cluster profile which will be created. The `blue` and `green` color-coding represent data as well as overall policies which are either optional (`blue`) or mandatory (`green`). The data marked `orange` represents policy names, in other words what would you like to call the particular policy that will get created. If multiple HyperFlex cluster profiles will leverage the same policy, you only need to provide the policy name AND policy data for the first instance of the policy. For each subsequent cluster profile that will leverage the same policy, you simply need to enter the same policy name and leave the policy data blank.
 
 ### Run
-
-#### Step 1: Deploy the HX_Intersight_Deploy Container
 
 1. Run the following command to start the docker container:
 
@@ -96,9 +94,6 @@ docker run -it -v <inputs_dir_full_path>:/hx_intersight_deploy/inputs michzimm/h
 
    Documentation for installing docker can be found here:
     * Windows: https://docs.docker.com/docker-for-windows/install/
-
-2.
-
 
 #### Step 2: Pull Input Files to Local Machine
 
@@ -132,7 +127,7 @@ Sample `inputs/auth` file:
 ```
 
 10. In Intersight, use the `Save Secret Key to text file` button (to the right of the Secret Key text) to save the secret key file in the `inputs` directory that was pulled from the Github repository on your local machine.
-11. You can now close the `Generate  API Key` pop up window in Intersight.
+11. You can now close the `Generate API Key` pop up window in Intersight.
 
 #### Step 4: Fill-In HyperFlex Cluster Data into Spreadsheet
 
@@ -140,22 +135,19 @@ The included `input.xlsx` file in the "inputs" directory is the excel spreadshee
 
 ### Run
 
-#### Step 1: Deploy the HX_Intersight_Deploy Container
-
 1. Run the following command to start the docker container:
 
 ```
-docker run -it -v <inputs_dir_full_path>:/hx_intersight_deploy/inputs michzimm/hx_intersight_deploy:1.0 /bin/bash
+docker run -it -v <inputs_dir_full_path>:/hx_intersight_deploy/inputs michzimm/hx_intersight_deploy:1.1
 ```
    * NOTE: <inputs_dir_full_path> = full path on your local machine to the `inputs` directory
    * NOTE: Your local machine must have access to the internet to pull container image from the public docker hub registry.
 
-
-#### Step 2: Run Script
-1. Running the above `docker run -it ...` command will start the container and dump you into the containers' CLI. From the container's CLI, run `./hx_intersight_deploy.py`.
-2. Select the operation to be performed:
+2. Running the above `docker run -it ...` command will start the container, dump you into the container's CLI and automatically run the `./hx_intersight_deploy.py` script.
+3. Select the operation to be performed:
    1. Claim HyperFlex Nodes in Intersight
    2. Create HyperFlex Cluster Profiles in Intersight
    3. Assign claimed HyperFlex nodes to HyperFlex Cluster Profiles in Intersight
-3. Depending on the chosen option, you will be prompted for any required passwords and additional information.
-4. Once the script completes, type `exit` to exit the Docker container. The Docker container will automatically stop upon exiting.
+   4. All of the Above
+4. Depending on the chosen option, you will be prompted for any required passwords and additional information.
+5. Once the script completes, you will automatically exit the docker container and the container will be stopped.
