@@ -72,7 +72,7 @@ docker run -it -v <inputs_dir_full_path>:/hx_intersight_deploy/inputs michzimm/h
    * **Note:** <inputs_dir_full_path> = full path on your local machine to the `inputs` directory
    * **Note:** Your local machine must have access to the internet to pull container image from the public docker hub registry.
 
-   * **Example:**
+   * **Example:** Let's say the `inputs` directory lives in `/Users/michzimm/` on my local machine...
    ```
    docker run -it -v /Users/michzimm/inputs:/hx_intersight_deploy/inputs michzimm/hx_intersight_deploy:1.1
    ```
@@ -148,7 +148,7 @@ docker run -it -v <inputs_dir_full_path>:/hx_intersight_deploy/inputs michzimm/h
    * **Note:** <inputs_dir_full_path> = full path on your local machine to the `inputs` directory
    * **Note:** Your local machine must have access to the internet to pull container image from the public docker hub registry.
 
-   * **Example:**
+   * **Example:** Let's say the `inputs` directory lives in `/Users/michzimm/` on my local machine...
    ```
    docker run -it -v /Users/michzimm/inputs:/hx_intersight_deploy/inputs michzimm/hx_intersight_deploy:1.1
    ```
