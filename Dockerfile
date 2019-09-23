@@ -26,3 +26,5 @@ WORKDIR /hx_intersight_deploy/source/IntersightPythonSDK_v1.1
 RUN python /hx_intersight_deploy/source/IntersightPythonSDK_v1.1/setup.py install
 
 WORKDIR /hx_intersight_deploy
+
+ENTRYPOINT ["./hx_intersight_deploy.py"]

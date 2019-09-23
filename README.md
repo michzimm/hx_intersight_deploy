@@ -69,20 +69,19 @@ The included `input.xlsx` file in the "inputs" directory is the excel spreadshee
 1. Run the following command to start the docker container:
 
 ```
-docker run -it -v <inputs_dir_full_path>:/hx_intersight_deploy/inputs michzimm/hx_intersight_deploy:1.0 /bin/bash
+docker run -it -v <inputs_dir_full_path>:/hx_intersight_deploy/inputs michzimm/hx_intersight_deploy:1.1
 ```
    * NOTE: <inputs_dir_full_path> = full path on your local machine to the `inputs` directory
    * NOTE: Your local machine must have access to the internet to pull container image from the public docker hub registry.
 
-
-#### Step 2: Run Script
-1. Running the above `docker run -it ...` command will start the container and dump you into the containers' CLI. From the container's CLI, run `./hx_intersight_deploy.py`.
-2. Select the operation to be performed:
+2. Running the above `docker run -it ...` command will start the container, dump you into the container's CLI and automatically run the `./hx_intersight_deploy.py` script.
+3. Select the operation to be performed:
    1. Claim HyperFlex Nodes in Intersight
    2. Create HyperFlex Cluster Profiles in Intersight
    3. Assign claimed HyperFlex nodes to HyperFlex Cluster Profiles in Intersight
-3. Depending on the chosen option, you will be prompted for any required passwords and additional information.
-4. Once the script completes, type `exit` to exit the Docker container. The Docker container will automatically stop upon exiting.
+   4. All of the Above
+4. Depending on the chosen option, you will be prompted for any required passwords and additional information.
+5. Once the script completes, you will automatically exit the docker container and the container will be stopped.
 
 
 ## Microsoft Windows
