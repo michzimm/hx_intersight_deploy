@@ -27,8 +27,11 @@ Automatically generate multiple HyperFlex cluster profiles in Intersight from da
 #### Step 2: Pull Input Files to Local Machine
 
 1. In the top right of the `michzimm/hx_intersight_deploy` repository on Github there is a green "Clone or Download" button. Click the "Clone or Download" button.
+
 2. The resulting dropdown/popup box contains the URL for the `michzimm/hx_intersight_deploy` repository. Manually copy the URL text or simply click the clipboard icon to the right of the URL text to copy.
+
 3. Navigate to a directory of your choice on your local machine where you would like to store the necessary files to run the hx_intersight_deploy tool.
+
 4. Use the `git clone <copied repository_URL>` command to pull the input files from the repository to your local machine.
 
 #### Step 3: Setup Intersight API Authentication File
@@ -36,13 +39,21 @@ Automatically generate multiple HyperFlex cluster profiles in Intersight from da
 **Note:** Intersight Essentials license is required to use the Intersight API.
 
 1. Log into https://intersight.com.
+
 2. in the upper right-hand corner, click the "Gear" icon and then on "Settings".
+
 3. Under the "API" section, click on "API Keys".
+
 4. In the upper-right, click "Generate API Key". (You can also use an existing API key if you already have one created)
+
 5. Enter a "Description" (name) for the API key and click "Generate".
+
 6. The resulting popup shows the unique API Key ID and Secret Key that were created. Keep this popup open for the subsequent steps.
+
 7. In the `inputs` directory that was pulled from the Github repository on your local machine, locate and open the `auth` file with your favorite text editor.
+
 8. Copy the `API Key ID` text in it's entirety from Intersight and insert into the `auth` file for the `api_key_id` value.
+
 9. Save and close the `auth` file.
 
 Sample `inputs/auth` file:
@@ -78,12 +89,15 @@ docker run -it -v <inputs_dir_full_path>:/hx_intersight_deploy/inputs michzimm/h
    ```
 
 2. Running the above `docker run -it ...` command will start the container, dump you into the container's CLI and automatically run the `./hx_intersight_deploy.py` script.
+
 3. Select the operation to be performed:
    1. Claim HyperFlex Nodes in Intersight
    2. Create HyperFlex Cluster Profiles in Intersight
    3. Assign claimed HyperFlex nodes to HyperFlex Cluster Profiles in Intersight
    4. All of the Above
+
 4. Depending on the chosen option, you will be prompted for any required passwords and additional information.
+
 5. Once the script completes, you will automatically exit the Docker container and the container will be stopped.
 
 
@@ -103,7 +117,9 @@ docker run -it -v <inputs_dir_full_path>:/hx_intersight_deploy/inputs michzimm/h
 #### Step 2: Pull Input Files to Local Machine
 
 1. In the top right of the `michzimm/hx_intersight_deploy` repository on Github there is a green "Clone or Download" button. Click the "Clone or Download" button.
+
 2. Click the `Download ZIP` button to download the repository to your local system.
+
 3. Navigate to the `downloads` directory on your local machine and unzip the `hx_intersight_deploy-master.zip` file.
 
 #### Step 3: Setup Intersight API Authentication File
@@ -111,13 +127,20 @@ docker run -it -v <inputs_dir_full_path>:/hx_intersight_deploy/inputs michzimm/h
 **Note:** Intersight Essentials license is required to use the Intersight API.
 
 1. Log into https://intersight.com.
+
 2. in the upper right-hand corner, click the "Gear" icon and then on "Settings".
+
 3. Under the "API" section, click on "API Keys".
+
 4. In the upper-right, click "Generate API Key". (You can also use an existing API key if you already have one created)
 5. Enter a "Description" (name) for the API key and click "Generate".
+
 6. The resulting popup shows the unique API Key ID and Secret Key that were created. Keep this popup open for the subsequent steps.
+
 7. In the `inputs` directory that was pulled from the Github repository on your local machine, locate and open the `auth` file with your favorite text editor.
+
 8. Copy the `API Key ID` text in it's entirety from Intersight and insert into the `auth` file for the `api_key_id` value.
+
 9. Save and close the `auth` file.
 
 Sample `inputs/auth` file:
@@ -131,6 +154,7 @@ Sample `inputs/auth` file:
 ```
 
 10. In Intersight, use the `Save Secret Key to text file` button (to the right of the Secret Key text) to save the secret key file in the `inputs` directory that was pulled from the Github repository on your local machine.
+
 11. You can now close the `Generate API Key` pop up window in Intersight.
 
 #### Step 4: Fill-In HyperFlex Cluster Data into Spreadsheet
@@ -141,26 +165,33 @@ The included `input.xlsx` file in the "inputs" directory is the excel spreadshee
 
 1. Open PowerShell.
 
-   * **Note:** Depending on your user permissions, you may need to run PowerShell as an Administrator. To do so, right click on the PowerShell icon and select `Run as Administrator`.
+**Note:** Depending on your user permissions, you may need to run PowerShell as an Administrator. To do so, right click on the PowerShell icon and select `Run as Administrator`.
 
 2. On the PowerShell command line, run the following command to start the Docker container:
 
 ```
 docker run -it -v <inputs_dir_full_path>:/hx_intersight_deploy/inputs michzimm/hx_intersight_deploy:1.1
 ```
-   * **Note:** <inputs_dir_full_path> = full path on your local machine to the `inputs` directory
-   * **Note:** Your local machine must have access to the internet to pull container image from the public Docker hub registry.
+**Note:** <inputs_dir_full_path> = full path on your local machine to the `inputs` directory
+**Note:** Your local machine must have access to the internet to pull container image from the public Docker hub registry.
 
-   * **Example:** Let's say the `inputs` directory lives in `C:/Users/michzimm/Downloads/` on my local machine...
+**Example:** Let's say the `inputs` directory lives in `C:/Users/michzimm/Downloads/` on my local machine...
    ```
    docker run -it -v C:/Users/michzimm/Downloads/inputs:/hx_intersight_deploy/inputs michzimm/hx_intersight_deploy:1.1
    ```
 
+4. Depending on your Docker configuration, after running the `docker run -it ...` command you may see a windows popup saysing that Docker wants to access your local drive. Select `Share it` and then an additional popup window should appear asking for your credentials.
+
+**Note:** Sometimes the popup window asking for credentials mentioned above appears behind the PowerShell window.
+
 3. Running the above `docker run -it ...` command will start the container, dump you into the container's CLI and automatically run the `./hx_intersight_deploy.py` script.
+
 4. Select the operation to be performed:
    1. Claim HyperFlex Nodes in Intersight
    2. Create HyperFlex Cluster Profiles in Intersight
    3. Assign claimed HyperFlex nodes to HyperFlex Cluster Profiles in Intersight
    4. All of the Above
+
 5. Depending on the chosen option, you will be prompted for any required passwords and additional information.
+
 6. Once the script completes, you will automatically exit the Docker container and the container will be stopped.
