@@ -91,10 +91,10 @@ docker run -it -v <inputs_dir_full_path>:/hx_intersight_deploy/inputs michzimm/h
 2. Running the above `docker run -it ...` command will start the container, dump you into the container's CLI and automatically run the `./hx_intersight_deploy.py` script.
 
 3. Select the operation to be performed:
-   1. Claim HyperFlex Nodes in Intersight
-   2. Create HyperFlex Cluster Profiles in Intersight
-   3. Assign claimed HyperFlex nodes to HyperFlex Cluster Profiles in Intersight
-   4. All of the Above
+   1) Claim HyperFlex Nodes in Intersight
+   2) Create HyperFlex Cluster Profiles in Intersight
+   3) Assign claimed HyperFlex nodes to HyperFlex Cluster Profiles in Intersight
+   4) All of the Above
 
 4. Depending on the chosen option, you will be prompted for any required passwords and additional information.
 
@@ -187,10 +187,10 @@ docker run -it -v <inputs_dir_full_path>:/hx_intersight_deploy/inputs michzimm/h
 3. Running the above `docker run -it ...` command will start the container, dump you into the container's CLI and automatically run the `./hx_intersight_deploy.py` script.
 
 4. Select the operation to be performed:
-   1. Claim HyperFlex Nodes in Intersight
-   2. Create HyperFlex Cluster Profiles in Intersight
-   3. Assign claimed HyperFlex nodes to HyperFlex Cluster Profiles in Intersight
-   4. All of the Above
+   1) Claim HyperFlex Nodes in Intersight
+   2) Create HyperFlex Cluster Profiles in Intersight
+   3) Assign claimed HyperFlex nodes to HyperFlex Cluster Profiles in Intersight
+   4) All of the Above
 
 5. Depending on the chosen option, you will be prompted for any required passwords and additional information.
 
