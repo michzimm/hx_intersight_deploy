@@ -17,12 +17,12 @@ Automatically generate multiple HyperFlex cluster profiles in Intersight from da
 
 #### Step 1: Install Docker on your Local Machine
 
-1. Install docker on your system using the standard docker installation procedure for your particular operating system.
+1. Install Docker on your system using the standard Docker installation procedure for your particular operating system.
 
-   Documentation for installing docker can be found here:
-    * Ubuntu: https://docs.docker.com/install/linux/docker-ce/ubuntu/
-    * CentOS: https://docs.docker.com/install/linux/docker-ce/centos/
-    * MacOS: https://docs.docker.com/docker-for-mac/install/
+   Documentation for installing Docker can be found here:
+    * Ubuntu: https://docs.Docker.com/install/linux/Docker-ce/ubuntu/
+    * CentOS: https://docs.Docker.com/install/linux/Docker-ce/centos/
+    * MacOS: https://docs.Docker.com/Docker-for-mac/install/
 
 #### Step 2: Pull Input Files to Local Machine
 
@@ -64,13 +64,13 @@ The included `input.xlsx` file in the "inputs" directory is the excel spreadshee
 
 ### Run
 
-1. Run the following command to start the docker container:
+1. Run the following command to start the Docker container:
 
 ```
 docker run -it -v <inputs_dir_full_path>:/hx_intersight_deploy/inputs michzimm/hx_intersight_deploy:1.1
 ```
    * **Note:** <inputs_dir_full_path> = full path on your local machine to the `inputs` directory
-   * **Note:** Your local machine must have access to the internet to pull container image from the public docker hub registry.
+   * **Note:** Your local machine must have access to the internet to pull container image from the public Docker hub registry.
 
    * **Example:** Let's say the `inputs` directory lives in `/Users/michzimm/` on my local machine...
    ```
@@ -84,7 +84,7 @@ docker run -it -v <inputs_dir_full_path>:/hx_intersight_deploy/inputs michzimm/h
    3. Assign claimed HyperFlex nodes to HyperFlex Cluster Profiles in Intersight
    4. All of the Above
 4. Depending on the chosen option, you will be prompted for any required passwords and additional information.
-5. Once the script completes, you will automatically exit the docker container and the container will be stopped.
+5. Once the script completes, you will automatically exit the Docker container and the container will be stopped.
 
 
 ## Microsoft Windows
@@ -93,19 +93,18 @@ docker run -it -v <inputs_dir_full_path>:/hx_intersight_deploy/inputs michzimm/h
 
 #### Step 1: Install Docker on your Local Machine
 
-1. Install docker on your system using the standard docker installation procedure for your particular operating system.
+1. Install Docker on your system using the standard Docker installation procedure for your particular operating system.
 
-**Note:** Make sure you select the option to enable linux container support when installing docker on Windows.
+**Note:** Make sure you DO NOT select the option to only use Windows containers when installing Docker on Windows.
 
-   Documentation for installing docker can be found here:
-    * Windows: https://docs.docker.com/docker-for-windows/install/
+   Documentation for installing Docker can be found here:
+    * Windows: https://docs.Docker.com/Docker-for-windows/install/
 
 #### Step 2: Pull Input Files to Local Machine
 
 1. In the top right of the `michzimm/hx_intersight_deploy` repository on Github there is a green "Clone or Download" button. Click the "Clone or Download" button.
-2. The resulting dropdown/popup box contains the URL for the `michzimm/hx_intersight_deploy` repository. Manually copy the URL text or simply click the clipboard icon to the right of the URL text to copy.
-3. Navigate to a directory of your choice on your local machine where you would like to store the necessary files to run the hx_intersight_deploy tool.
-4. Use the `git clone <copied repository_URL>` command to pull the input files from the repository to your local machine.
+2. Click the `Download ZIP` button to download the repository to your local system.
+3. Navigate to the `downloads` directory on your local machine and unzip the `hx_intersight_deploy-master.zip` file.
 
 #### Step 3: Setup Intersight API Authentication File
 
@@ -140,24 +139,28 @@ The included `input.xlsx` file in the "inputs" directory is the excel spreadshee
 
 ### Run
 
-1. Run the following command to start the docker container:
+1. Open PowerShell.
+
+   * **Note:** Depending on your user permissions, you may need to run PowerShell as an Administrator. To do so, right click on the PowerShell icon and select `Run as Administrator`.
+
+2. On the PowerShell command line, run the following command to start the Docker container:
 
 ```
 docker run -it -v <inputs_dir_full_path>:/hx_intersight_deploy/inputs michzimm/hx_intersight_deploy:1.1
 ```
    * **Note:** <inputs_dir_full_path> = full path on your local machine to the `inputs` directory
-   * **Note:** Your local machine must have access to the internet to pull container image from the public docker hub registry.
+   * **Note:** Your local machine must have access to the internet to pull container image from the public Docker hub registry.
 
-   * **Example:** Let's say the `inputs` directory lives in `/Users/michzimm/` on my local machine...
+   * **Example:** Let's say the `inputs` directory lives in `C:/Users/michzimm/Downloads/` on my local machine...
    ```
-   docker run -it -v /Users/michzimm/inputs:/hx_intersight_deploy/inputs michzimm/hx_intersight_deploy:1.1
+   docker run -it -v C:/Users/michzimm/Downloads/inputs:/hx_intersight_deploy/inputs michzimm/hx_intersight_deploy:1.1
    ```
 
-2. Running the above `docker run -it ...` command will start the container, dump you into the container's CLI and automatically run the `./hx_intersight_deploy.py` script.
-3. Select the operation to be performed:
+3. Running the above `docker run -it ...` command will start the container, dump you into the container's CLI and automatically run the `./hx_intersight_deploy.py` script.
+4. Select the operation to be performed:
    1. Claim HyperFlex Nodes in Intersight
    2. Create HyperFlex Cluster Profiles in Intersight
    3. Assign claimed HyperFlex nodes to HyperFlex Cluster Profiles in Intersight
    4. All of the Above
-4. Depending on the chosen option, you will be prompted for any required passwords and additional information.
-5. Once the script completes, you will automatically exit the docker container and the container will be stopped.
+5. Depending on the chosen option, you will be prompted for any required passwords and additional information.
+6. Once the script completes, you will automatically exit the Docker container and the container will be stopped.
