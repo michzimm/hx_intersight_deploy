@@ -1,13 +1,4 @@
-FROM alpine:latest
-
-RUN apk add --update \
-  python \
-  python-dev \
-  py-pip \
-  gcc \
-  libc-dev
-
-RUN set -ex && apk --no-cache add sudo
+FROM python:2.7-slim
 
 RUN mkdir /hx_intersight_deploy
 RUN mkdir /hx_intersight_deploy/logs
