@@ -35,6 +35,7 @@ from intersight.apis import hyperflex_software_version_policy_api
 from intersight.models import hyperflex_mac_addr_prefix_range
 import source.device_connector
 from imcsdk.imchandle import ImcHandle
+from password_strength import PasswordPolicy
 
 class InputRecord(object):
     def __init__(self, hx_profile_name=None, cluster_type=None, hxdp_version=None, description=None, data_vlan_id=None, cluster_mgmt_ip=None, mac_address_prefix=None, hx_nodes_cimc_ips=None, hx_nodes_cimc_user=None, local_credential_policy_name=None, hypervisor_admin_user=None, sys_config_policy_name=None, dns_suffix=None, timezone=None, dns_servers=None, ntp_servers=None, vcenter_policy_name=None, vcenter=None, vcenter_user=None, vcenter_dc=None, vcenter_sso=None, cluster_storage_policy_name=None, vdi_optimization=None, clean_partitions=None, auto_support_policy_name=None, auto_support=None, auto_support_email=None, node_config_policy_name=None, hostname_prefix=None, mgmt_start_ip=None, mgmt_end_ip=None, mgmt_subnet_mask=None, mgmt_gw=None, cont_vm_start_ip=None, cont_vm_end_ip=None, cont_vm_subnet_mask=None, cont_vm_gw=None, cluster_network_policy_name=None, mgmt_vlan_id=None, uplink_speed=None, jumbo_frames=None, proxy_setting_policy_name=None, proxy_hostname=None, proxy_port=None, proxy_username=None, proxy_password=None):
@@ -971,17 +972,30 @@ while True:
 #
 ####################################################################################################
 
+policy = PasswordPolicy.from_names(
+    length=10,  # min length: 8
+    uppercase=1,  # need min. 1 uppercase letters
+    numbers=1,  # need min. 2 digits
+    special=1,  # need min. 2 special characters
+)
+
+
 print("\n")
 print(Fore.CYAN+"Collecting required passwords...\n"+Style.RESET_ALL)
 
 if menu_answer in ('2','4'):
     while True:
         hypervisor_password = getpass.getpass("     Please enter the new ESXi hypervisor password: ")
-        confirm_hypervisor_password = getpass.getpass("     Please confirm the new ESXi hypervisor password: ")
-        if hypervisor_password == confirm_hypervisor_password:
-            break
+        hypervisor_password_test = policy.test(hypervisor_password)
+        if hypervisor_password_test:
+            print (Fore.RED+"        Password does not meet the following requirements: "+str(hypervisor_password_test)+Style.RESET_ALL)
         else:
-            print (Fore.RED+"        Passwords do not match, please re-enter the passwords."+Style.RESET_ALL)
+            confirm_hypervisor_password = getpass.getpass("     Please confirm the new ESXi hypervisor password: ")
+            if hypervisor_password == confirm_hypervisor_password:
+                break
+            else:
+                print (Fore.RED+"        Passwords do not match, please re-enter the passwords."+Style.RESET_ALL)
+
 
     pass_answer1 = raw_input("     Do you want the HyperFlex cluster to use the same password? (yes/no): ")
     if pass_answer1.upper() in ("YES", "Y"):
@@ -989,11 +1003,15 @@ if menu_answer in ('2','4'):
     else:
         while True:
             controller_password = getpass.getpass("        Please enter the new HyperFlex controller VM password: ")
-            confirm_controller_password = getpass.getpass("        Please confirm the new HyperFlex controller VM password: ")
-            if controller_password == confirm_controller_password:
-                break
+            controller_password_test = policy.test(controller_password)
+            if controller_password_test:
+                print (Fore.RED+"        Password does not meet the following requirements: "+str(controller_password_test)+Style.RESET_ALL)
             else:
-                print (Fore.RED+"      Passwords do not match, please re-enter the passwords."+Style.RESET_ALL)
+                confirm_controller_password = getpass.getpass("        Please confirm the new HyperFlex controller VM password: ")
+                if controller_password == confirm_controller_password:
+                    break
+                else:
+                    print (Fore.RED+"      Passwords do not match, please re-enter the passwords."+Style.RESET_ALL)
 
     pass_answer2 = raw_input("     Is the vCenter password the same? (yes/no): ")
     if pass_answer2.upper() in ("YES", "Y"):
