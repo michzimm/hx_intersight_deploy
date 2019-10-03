@@ -1,6 +1,6 @@
 # HyperFlex Deployment at Scale via Intersight API
 
-[Docker Container Version]
+[Docker Container Version 1.1]
 
 ## Purpose
 
