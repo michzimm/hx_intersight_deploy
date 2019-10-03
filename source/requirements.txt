@@ -8,6 +8,7 @@ idna==2.8
 imcsdk==0.9.6
 jdcal==1.4
 openpyxl==2.6.0
+password-strength==0.0.3.post2
 prettytable==0.7.2
 pycryptodome==3.7.2
 pyparsing==2.3.1
