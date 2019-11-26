@@ -78,14 +78,14 @@ The included `input.xlsx` file in the "inputs" directory is the excel spreadshee
 1. Run the following command to start the Docker container:
 
 ```
-docker run -it -v <inputs_dir_full_path>:/hx_intersight_deploy/inputs michzimm/hx_intersight_deploy:1.2
+docker run -it -v <inputs_dir_full_path>:/hx_intersight_deploy/inputs michzimm/hx_intersight_deploy:1.3
 ```
    * **Note:** <inputs_dir_full_path> = full path on your local machine to the `inputs` directory
    * **Note:** Your local machine must have access to the internet to pull container image from the public Docker hub registry.
 
    * **Example:** Let's say the `inputs` directory lives in `/Users/michzimm/` on my local machine...
    ```
-   docker run -it -v /Users/michzimm/inputs:/hx_intersight_deploy/inputs michzimm/hx_intersight_deploy:1.2
+   docker run -it -v /Users/michzimm/inputs:/hx_intersight_deploy/inputs michzimm/hx_intersight_deploy:1.3
    ```
 
 2. Running the above `docker run -it ...` command will start the container, dump you into the container's CLI and automatically run the `./hx_intersight_deploy.py` script.
@@ -170,14 +170,14 @@ The included `input.xlsx` file in the "inputs" directory is the excel spreadshee
 2. On the PowerShell command line, run the following command to start the Docker container:
 
 ```
-docker run -it -v <inputs_dir_full_path>:/hx_intersight_deploy/inputs michzimm/hx_intersight_deploy:1.2
+docker run -it -v <inputs_dir_full_path>:/hx_intersight_deploy/inputs michzimm/hx_intersight_deploy:1.3
 ```
 **Note:** <inputs_dir_full_path> = full path on your local machine to the `inputs` directory
 **Note:** Your local machine must have access to the internet to pull container image from the public Docker hub registry.
 
 **Example:** Let's say the `inputs` directory lives in `C:/Users/michzimm/Downloads/` on my local machine...
    ```
-   docker run -it -v C:/Users/michzimm/Downloads/inputs:/hx_intersight_deploy/inputs michzimm/hx_intersight_deploy:1.2
+   docker run -it -v C:/Users/michzimm/Downloads/inputs:/hx_intersight_deploy/inputs michzimm/hx_intersight_deploy:1.3
    ```
 
 4. Depending on your Docker configuration, after running the `docker run -it ...` command you may see a windows popup saysing that Docker wants to access your local drive. Select `Share it` and then an additional popup window should appear asking for your credentials.
