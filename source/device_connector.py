@@ -249,8 +249,8 @@ class ImcDeviceConnector(DeviceConnector, object):
                         'Referer': referer
                     }
                     self.logged_in = True
-                else:
-                    print("Unable to login: ", imc_login_uri)
+                #else:
+                    #print("Unable to login: ", imc_login_uri)
         except subprocess.CalledProcessError as sub_ret:
             print("Utils exe returns ", sub_ret.returncode, sub_ret.output)
 

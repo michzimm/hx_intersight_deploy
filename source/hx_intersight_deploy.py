@@ -33,9 +33,10 @@ from intersight.apis import compute_rack_unit_api
 from intersight.apis import hyperflex_node_profile_api
 from intersight.apis import hyperflex_software_version_policy_api
 from intersight.models import hyperflex_mac_addr_prefix_range
-import source.device_connector
+import device_connector
 from imcsdk.imchandle import ImcHandle
 from password_strength import PasswordPolicy
+from requests.exceptions import ConnectionError
 
 class InputRecord(object):
     def __init__(self, hx_profile_name=None, cluster_type=None, hxdp_version=None, description=None, data_vlan_id=None, cluster_mgmt_ip=None, mac_address_prefix=None, hx_nodes_cimc_ips=None, hx_nodes_cimc_user=None, local_credential_policy_name=None, hypervisor_admin_user=None, sys_config_policy_name=None, dns_suffix=None, timezone=None, dns_servers=None, ntp_servers=None, vcenter_policy_name=None, vcenter=None, vcenter_user=None, vcenter_dc=None, vcenter_sso=None, cluster_storage_policy_name=None, vdi_optimization=None, clean_partitions=None, auto_support_policy_name=None, auto_support=None, auto_support_email=None, node_config_policy_name=None, hostname_prefix=None, mgmt_start_ip=None, mgmt_end_ip=None, mgmt_subnet_mask=None, mgmt_gw=None, cont_vm_start_ip=None, cont_vm_end_ip=None, cont_vm_subnet_mask=None, cont_vm_gw=None, cluster_network_policy_name=None, mgmt_vlan_id=None, uplink_speed=None, jumbo_frames=None, proxy_setting_policy_name=None, proxy_hostname=None, proxy_port=None, proxy_username=None, proxy_password=None):
@@ -1023,7 +1024,8 @@ if menu_answer in ('1','3','4'):
     cimc_password = getpass.getpass("     Please enter the CIMC password for the HyperFlex nodes: ")
 
 print("\n")
-
+print(Fore.CYAN+"Working...process can take several minutes...please be patient.\n"+Style.RESET_ALL)
+print("\n")
 
 
 
@@ -1275,67 +1277,72 @@ for row in ws.iter_rows(min_row=3, values_only=True):
 
                     # Setup timeout for 'try' statement below
                     signal.signal(signal.SIGALRM, timeout_handler)
-                    signal.alarm(20)
+                    signal.alarm(120)
 
                     try:
-                        # Get device_connector object for hyperflex node device
-                        dc_obj = device_connector.UcsDeviceConnector(device)
-                        if not dc_obj.logged_in:
-                                dc_obj = device_connector.ImcDeviceConnector(device)
+                        dc_obj = device_connector.ImcDeviceConnector(device)
+                        if dc_obj.logged_in:
+                            #print(dc_obj.__dict__)
 
-                        # Enable the device_connector for hyperflex node device if not already enabled, get response json
-                        ro_json = dc_obj.configure_connector()
+                            ro_json = dc_obj.configure_connector()
+                            #print (ro_json)
+                            if not 'ApiError' in ro_json:
+
+                                # Set device_connector 'ReadOnlyMode' to False
+                                if (ro_json.get('ReadOnlyMode') is not None) and (ro_json['ReadOnlyMode'] != device['read_only']):
+                                    ro_json = dc_obj.configure_access_mode(ro_json)
+
+                                # Set device_connector proxy settings if required
+                                if 'proxy_host' in device and 'proxy_port' in device:
+                                    ro_json = dc_obj.configure_proxy(ro_json, result)
+
+                                # Wait for a connection to establish before checking claim state
+                                for _ in range(10):
+                                    ro_json = dc_obj.get_status()
+                                    if ro_json['ConnectionState'] != 'Connected':
+                                        if ro_json['ConnectionState'] in ('DNS Misconfigured', 'Intersight DNS Resolve Error'):
+                                            logging.error('CLAIMING Device: '+hx_node+' --> Check CIMC DNS settings, device connector reporting DNS misconfiguration and cannot connect to Intersight.')
+                                            break
+                                        sleep(1)
+                                        ro_json = dc_obj.get_status()
+                                    else:
+                                        break
+
+                                if ro_json['ConnectionState'] != 'Connected':
+                                    claim_status[hx_node] = 'not claimed'
+                                    continue
+
+                                if ro_json['AccountOwnershipState'] != 'Claimed':
+                                    # attempt to claim
+                                    (claim_resp, device_id, claim_code) = dc_obj.get_claim_info(ro_json)
+                                    claim_imc_device(api_instance, claim_code, device_id)
+                                    ro_json = dc_obj.get_status()
+                                    if ro_json['AccountOwnershipState'] == 'Claimed':
+                                        claim_status[hx_node] = 'claimed'
+                                    else:
+                                        claim_status[hx_node] = 'not claimed'
+                                    claim_status[hx_node] = 'claimed'
+                                elif ro_json['AccountOwnershipState'] == 'Claimed':
+                                    claim_status[hx_node] = 'already claimed'
+                                else:
+                                    claim_status[hx_node] = 'not claimed'
+
+                            else:
+                                error_code = ro_json['ApiError'].split(" ")[2]
+                                if error_code == "405":
+                                    logging.error('CLAIMING Device: '+hx_node+' --> Check to make sure the version of CIMC software running on the HX node is new enough to support the Intersight device connector.')
+                        else:
+                            logging.error('CLAIMING Device: '+hx_node+' --> Unable to login to CIMC, check credentials')
+                            claim_status[hx_node] = 'not claimed'
+
+                    except ConnectionError:
+                        logging.error('CLAIMING Device: '+hx_node+' --> Failed to establish API Connection to CIMC. Check IP address and credentials of CIMC.')
+                        claim_status[hx_node] = 'not claimed'
 
                     # Handle exception for incorrect CIMC password provided
-                    except KeyError:
-                        claim_status[hx_node] = 'not claimed'
-                        logging.error('CLAIMING Device: '+hx_node+' --> Authentication to CIMC failed on node. Unable to get authentication cookie, check password and try again.')
-
-                    # Handle exception for connection issues, i.e. timeout, etc.
-                    except:
-                        claim_status[hx_node] = 'not claimed'
-                        logging.error('CLAIMING Device: '+hx_node+' --> Not able to connect to CIMC interface on node. Check IP address and connectivity and retry.')
-
-                    # If 'try' statement above succeeds do the following
-                    else:
-
-                        # Set device_connector 'ReadOnlyMode' to False
-                        if (ro_json.get('ReadOnlyMode') is not None) and (ro_json['ReadOnlyMode'] != device['read_only']):
-                            ro_json = dc_obj.configure_access_mode(ro_json)
-
-                        # Set device_connector proxy settings if required
-                        if 'proxy_host' in device and 'proxy_port' in device:
-                            ro_json = dc_obj.configure_proxy(ro_json, result)
-
-                        # Wait for a connection to establish before checking claim state
-                        for _ in range(10):
-                            ro_json = dc_obj.get_status()
-                            if ro_json['ConnectionState'] != 'Connected':
-                                if ro_json['ConnectionState'] in ('DNS Misconfigured', 'Intersight DNS Resolve Error'):
-                                    logging.error('CLAIMING Device: '+hx_node+' --> Check CIMC DNS settings, device connector reporting DNS misconfiguration and cannot connect to Intersight.')
-                                    break
-                                sleep(1)
-                                ro_json = dc_obj.get_status()
-                                #print ro_json
-                            else:
-                                break
-
-                        if ro_json['ConnectionState'] != 'Connected':
-                            claim_status[hx_node] = 'not claimed'
-                            continue
-
-                        if ro_json['AccountOwnershipState'] != 'Claimed':
-                            # attempt to claim
-                            (claim_resp, device_id, claim_code) = dc_obj.get_claim_info(ro_json)
-                            claim_imc_device(api_instance, claim_code, device_id)
-                            claim_status[hx_node] = 'claimed'
-                        elif ro_json['AccountOwnershipState'] == 'Claimed':
-                            claim_status[hx_node] = 'already claimed'
-                        else:
-                            claim_status[hx_node] = 'not claimed'
-                        dc_obj.logout()
-
                     finally:
+                        if dc_obj.logged_in:
+                            dc_obj.logout()
                         signal.alarm(0)
 
 
