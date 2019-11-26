@@ -1,6 +1,6 @@
 # HyperFlex Deployment at Scale via Intersight API
 
-[Docker Container Version 1.2]
+[Docker Container Version 1.3]
 
 ## Purpose
 
@@ -195,3 +195,11 @@ docker run -it -v <inputs_dir_full_path>:/hx_intersight_deploy/inputs michzimm/h
 5. Depending on the chosen option, you will be prompted for any required passwords and additional information.
 
 6. Once the script completes, you will automatically exit the Docker container and the container will be stopped.
+
+## Troubleshooting
+
+After running the `docker run ...` command, the docker container will automatically stop (exit). However, if any failures occurred during execution, you can still pull logs from the stopped container. To review the log, do the following...
+
+1. Run `docker ps -a` and retrieve the container ID for the stopped container. Copy the Container ID.
+2. Run the following command `docker cp <container ID>:/hx_intersight_deploy/logs <destination_path>` with `destination_path` being where you want to copy the `logs` directory to your local system.
+3. Once the log directory is copied to your local machine, navigate into the logs directory. Open and view the contents the log file inside the logs directory, which should be named with a timestamp from when the hx_intersight_deploy script was run.
